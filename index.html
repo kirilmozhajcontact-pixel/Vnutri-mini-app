@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF8EA">
+  <title>VNUTRI — wellness-трекер</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- Onboarding -->
+    <div id="onboarding" class="onboarding" hidden></div>
+
+    <!-- Screens -->
+    <main id="main-content" class="main-content">
+      <!-- Home -->
+      <section id="screen-home" class="screen screen--active" data-screen="home">
+        <header class="home-header">
+          <div class="blob blob--lavender" aria-hidden="true"></div>
+          <p class="greeting" id="home-greeting">Привет</p>
+          <p class="date-line" id="home-date"></p>
+        </header>
+
+        <div class="card card--cream last-entry" id="last-entry-card">
+          <p class="muted">Последняя запись</p>
+          <p class="last-entry__text" id="last-entry-text">Пока нет записей</p>
+        </div>
+
+        <button type="button" class="btn btn--primary btn--large" id="btn-add-checkin">
+          Добавить чек-ин
+        </button>
+
+        <h2 class="section-title">Твои столпы</h2>
+        <div class="pillars-grid" id="pillars-grid"></div>
+
+        <div class="card today-stats" id="today-stats">
+          <h3 class="card__title">Сегодня</h3>
+          <div class="today-stats__grid" id="today-stats-grid"></div>
+        </div>
+
+        <button type="button" class="card card--link" id="btn-widget-settings">
+          <span class="card--link__icon">⚙️</span>
+          <span>
+            <strong>Настроить опросники</strong>
+            <span class="muted small">Добавь или убери виджеты</span>
+          </span>
+          <span class="chevron">›</span>
+        </button>
+      </section>
+
+      <!-- Check-in -->
+      <section id="screen-checkin" class="screen" data-screen="checkin">
+        <header class="screen-header">
+          <h1>Опрос</h1>
+          <p class="muted">Отметь, как ты себя чувствуешь сейчас</p>
+        </header>
+        <form id="checkin-form" class="checkin-form"></form>
+        <div class="checkin-actions">
+          <button type="submit" form="checkin-form" class="btn btn--primary btn--large">
+            Сохранить состояние
+          </button>
+        </div>
+        <div id="checkin-toast" class="toast" hidden>
+          <span>✓</span> Состояние сохранено
+        </div>
+      </section>
+
+      <!-- Statistics -->
+      <section id="screen-statistics" class="screen" data-screen="statistics">
+        <header class="screen-header">
+          <h1>Статистика</h1>
+          <p class="muted">Мягкий взгляд на свой день</p>
+        </header>
+
+        <div class="stats-tabs">
+          <button type="button" class="stats-tab stats-tab--active" data-stats-tab="day">День</button>
+          <button type="button" class="stats-tab" data-stats-tab="week">Неделя</button>
+        </div>
+
+        <div id="stats-day" class="stats-panel stats-panel--active"></div>
+        <div id="stats-week" class="stats-panel" hidden></div>
+
+        <div class="card history-section">
+          <h3 class="card__title">Последние записи</h3>
+          <ul class="history-list" id="history-list"></ul>
+          <p class="empty-state muted" id="history-empty" hidden>Пока нет записей</p>
+        </div>
+
+        <div class="card service-section">
+          <h3 class="card__title">Сервис</h3>
+          <p class="muted small" id="entries-count">Записей: 0</p>
+          <button type="button" class="btn btn--ghost" id="btn-reset-onboarding">
+            Сбросить onboarding
+          </button>
+          <button type="button" class="btn btn--danger-ghost" id="btn-clear-data">
+            Очистить все данные
+          </button>
+        </div>
+      </section>
+
+      <!-- Widget settings -->
+      <section id="screen-widgets" class="screen" data-screen="widgets">
+        <header class="screen-header screen-header--row">
+          <button type="button" class="btn-icon" id="btn-widgets-back" aria-label="Назад">←</button>
+          <div>
+            <h1>Опросники</h1>
+            <p class="muted">Настрой свои виджеты</p>
+          </div>
+        </header>
+
+        <h2 class="section-title">Активные виджеты</h2>
+        <div class="widgets-list" id="widgets-active"></div>
+
+        <h2 class="section-title">Доступные виджеты</h2>
+        <div class="widgets-list" id="widgets-available"></div>
+      </section>
+    </main>
+
+    <!-- Bottom navigation -->
+    <nav id="bottom-nav" class="bottom-nav" aria-label="Навигация">
+      <button type="button" class="nav-item" data-nav="checkin" aria-label="Опрос">
+        <span class="nav-item__icon">📋</span>
+        <span class="nav-item__label">Опрос</span>
+      </button>
+      <button type="button" class="nav-item nav-item--center nav-item--active" data-nav="home" aria-label="Главная">
+        <span class="nav-item__circle">
+          <span class="nav-item__icon">🏠</span>
+        </span>
+        <span class="nav-item__label">Главная</span>
+      </button>
+      <button type="button" class="nav-item" data-nav="statistics" aria-label="Статистика">
+        <span class="nav-item__icon">📊</span>
+        <span class="nav-item__label">Статистика</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/telegram.js"></script>
+  <script src="js/checkin.js"></script>
+  <script src="js/onboarding.js"></script>
+  <script src="js/widgets.js"></script>
+  <script src="js/statistics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
